@@ -19,10 +19,16 @@ interface ToasterViewPortProps {
 }
 export const ToasterViewPort = (props: ToasterViewPortProps) => {
   const { toasts } = props;
-  console.log("toasterviewport", toasts);
   const toast = toasts
     ? toasts.map((t) => {
-        return <Toast title={t.title} containerId={t.containerId} toastId={t.toastId} />;
+        return (
+          <Toast
+            title={t.title}
+            containerId={t.containerId}
+            toastId={t.toastId}
+            key={t.toastId}
+          />
+        );
       })
     : null;
   return <StyledToastContainer>{toast}</StyledToastContainer>;

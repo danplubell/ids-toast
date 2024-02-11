@@ -1,8 +1,7 @@
 import { nanoid } from "nanoid";
-import { useEffect, useReducer, useRef } from "react";
+import { useReducer} from "react";
 import {
-  ActionType,
-  initializeContainerMap, initialStore,
+  ActionType, IDS_TOAST_CONTAINER_ID, IDS_TOAST_STORE,
   toastReducer,
 } from "./store.ts";
 import { ToastOptions } from "./Toast.tsx";
@@ -10,12 +9,8 @@ import { Toaster } from "./Toaster.tsx";
 import { ToasterStoreContext } from "./ToasterStoreContext.tsx";
 
 export const useToaster = () => {
-  const containerId = useRef(nanoid());
-  console.log("containerId", containerId);
-  const [toastStore, dispatch] = useReducer(toastReducer, initialStore);
-  useEffect(() => {
-    initializeContainerMap(toastStore, containerId.current);
-  }, []);
+  const [toastStore, dispatch] = useReducer(toastReducer, IDS_TOAST_STORE);
+  
   const toast = (title: string, options?: ToastOptions) => {
     const newToastId = nanoid();
     const action = {
@@ -23,7 +18,7 @@ export const useToaster = () => {
       entry: {
         title: title,
         toastId: newToastId,
-        containerId: containerId.current,
+        containerId: IDS_TOAST_CONTAINER_ID,
         onClick: options?.onClick,
         description: options?.description,
         media: options?.media,
@@ -35,7 +30,7 @@ export const useToaster = () => {
     toast: toast,
     toaster: (
       <ToasterStoreContext.Provider value={{ toastStore, dispatch }}>
-        <Toaster containerId={containerId.current} />
+        <Toaster containerId={IDS_TOAST_CONTAINER_ID} />
       </ToasterStoreContext.Provider>
     ),
   };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import "./App.css";
 import { useToaster } from "./components/Toast/Toast/useToaster.tsx";
 

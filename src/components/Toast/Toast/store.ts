@@ -1,5 +1,6 @@
 import { ContainerId, ToastId } from "./Toast.tsx";
 import { createContext } from "react";
+import { nanoid } from "nanoid";
 export type ActionType = "add" | "remove";
 export type ToastStoreEntry = {
   toastId: ToastId;
@@ -13,11 +14,6 @@ export type Action = {
 export type ToastStore = Map<ContainerId, ContainerMap>;
 
 
-export const createStore = () => {
-  return new Map() as ToastStore;
-};
-
-export const initialStore = createStore();
 export const initializeContainerMap = (
   store: ToastStore,
   containerId: ContainerId,
@@ -29,8 +25,6 @@ export const initializeContainerMap = (
 export const ToasterStoreContext = createContext(null);
 export const toastReducer = (state: ToastStore, action: Action) => {
   const containerMap = state.get(action.entry.containerId);
-  console.log("toastReducer_containerid", action.entry.containerId);
-  console.log("toastReducer_containerMap", containerMap);
   switch (action.type) {
     case "add":
       if (containerMap) {
@@ -48,3 +42,12 @@ export const toastReducer = (state: ToastStore, action: Action) => {
       return state;
   }
 };
+
+export const createStore = () => {
+  const store  = new Map() as ToastStore;
+  const containerId = nanoid();
+  initializeContainerMap(store, containerId);
+  return {IDS_TOAST_STORE: store, IDS_TOAST_CONTAINER_ID: containerId};
+};
+
+export const {IDS_TOAST_STORE, IDS_TOAST_CONTAINER_ID} = createStore();

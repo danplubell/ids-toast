@@ -15,8 +15,10 @@ export const Toaster = (props: Toaster) => {
   useEffect(() => {
     if(context?.toastStore){
       const containerMap = context.toastStore.get(containerId);
-      
-      
+      if(containerMap){
+        setToasts(Array.from(containerMap.values()))
+        
+      }
     }
   }, [context, containerId]);
   return <ToasterViewPort toasts={_toasts} />;
