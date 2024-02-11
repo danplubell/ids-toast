@@ -1,7 +1,9 @@
 import { nanoid } from "nanoid";
-import { useReducer} from "react";
+import { useReducer } from "react";
 import {
-  ActionType, IDS_TOAST_CONTAINER_ID, IDS_TOAST_STORE,
+  ActionType,
+  IDS_TOAST_CONTAINER_ID,
+  IDS_TOAST_STORE,
   toastReducer,
 } from "./store.ts";
 import { ToastOptions } from "./Toast.tsx";
@@ -10,7 +12,7 @@ import { ToasterStoreContext } from "./ToasterStoreContext.tsx";
 
 export const useToaster = () => {
   const [toastStore, dispatch] = useReducer(toastReducer, IDS_TOAST_STORE);
-  
+
   const toast = (title: string, options?: ToastOptions) => {
     const newToastId = nanoid();
     const action = {

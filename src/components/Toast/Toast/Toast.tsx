@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
+import { useEffect, useState } from "react";
 
 /*
 const fadeOut = keyframes`
@@ -20,6 +21,17 @@ const fadeIn = keyframes`
     }
 
 `;
+const fadeOut = keyframes`
+  from {
+    translateX(0%);
+    visibility: visible;
+  }
+  to {
+    transform: translateX(110%);
+  }
+
+`;
+
 /*
   0% {
     transform: translateX(1000px);
@@ -46,14 +58,17 @@ const fadeIn = keyframes`
 }
 
  */
-const StyledToast = styled.div`
+type StyledProps = {
+  deleting: boolean;
+}
+const StyledToast = styled.div<StyledProps>`
   border: 1px solid blue;
   min-width: 320px;
   max-width: 320px;
   min-height: 40px;
   transition: transform 0.35s cubic-bezier(0.06, 0.71, 0.55, 1.275);
-  animation: ${() => fadeIn} 0.5s 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  -webkit-animation: ${() => fadeIn} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+  animation: ${(props) => !props.deleting? fadeIn : fadeOut} 0.5s 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  -webkit-animation: ${(props) => !props.deleting? fadeIn : fadeOut} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
     both;
 `;
 
@@ -73,5 +88,9 @@ export interface Toast {
 }
 export const Toast = (props: Toast) => {
   const { title } = props;
-  return <StyledToast>{title}</StyledToast>;
+  const [dismiss, setDismiss] = useState(false);
+  useEffect(()=> {
+    setTimeout(()=> {console.log("dismiss"); setDismiss(true)}, 5000);
+  })
+  return <StyledToast deleting={dismiss}>{title}</StyledToast>;
 };
