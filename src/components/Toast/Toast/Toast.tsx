@@ -1,10 +1,13 @@
 import styled from "@emotion/styled";
-import {keyframes} from "@emotion/react";
+import { keyframes } from "@emotion/react";
 
+/*
 const fadeOut = keyframes`
   0% { opacity: 1; }
   100% { opacity: 0; }
 `;
+
+ */
 const fadeIn = keyframes`
     from {
         transform: translate3d(110%, 0, 0);
@@ -49,12 +52,24 @@ const StyledToast = styled.div`
   max-width: 320px;
   min-height: 40px;
   transition: transform 0.35s cubic-bezier(0.06, 0.71, 0.55, 1.275);
-  animation: ${()=>fadeIn} 0.5s 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-  -webkit-animation: ${()=>fadeIn} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: ${() => fadeIn} 0.5s 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  -webkit-animation: ${() => fadeIn} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+    both;
 `;
+
+export type ContainerId = string;
+export type ToastId = string;
+export type ToastOptions = {
+  onClick?: (e: MouseEvent) => void;
+  description?: string;
+  media?: string;
+}
 export interface Toast {
   title?: string;
   description?: string;
+  containerId: ContainerId;
+  toastId: ToastId;
+  onClick?: (e: MouseEvent) => void;
 }
 export const Toast = (props: Toast) => {
   const { title } = props;
